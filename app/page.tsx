@@ -1,3 +1,4 @@
+/*
 import Image from "next/image";
 
 export default function Home() {
@@ -100,4 +101,11 @@ export default function Home() {
       </footer>
     </div>
   );
+}
+*/
+
+import Translator from './component/translator';
+
+export default function Home() {
+  return <Translator />;
 }
