@@ -1,14 +1,19 @@
 'use client';
 
 import { useState } from "react";
+<<<<<<< HEAD
 import TweetComposer from './twitter';
 
+=======
+import LoadingDots from "./loading";
+>>>>>>> d374db706df21900787e084ae0391a1788a45c36
 
 export default function Translator() {
   const [input, setInput] = useState("");
   const [style, setStyle] = useState("positive");
   const [output, setOutput] = useState("");
   const [textColor, setTextColor] = useState("text-gray-400");
+  const [isLoading, setIsLoading] = useState(false);
 
   const styles = [
     { value: "positive", label: "ポジティブ表現" },
@@ -16,15 +21,38 @@ export default function Translator() {
     { value: "movie", label: "洋画っぽい表現" },
   ];
 
-  const handleTranslate = () => {
+  const handleTranslate = async () => {
     if (input === "") {
       setOutput("");
       setTextColor("text-gray-400");
+      return;
     }
 
-    else {
-      setOutput(`${input}`);
-      setTextColor("text-gray-800");
+    setIsLoading(true);
+    setOutput("");
+    try {
+      const res = await fetch("/api/gemini", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ input, style })
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        setOutput(data.result);
+        setTextColor("text-gray-800");
+      } else {
+        setOutput("翻訳に失敗しました。");
+        setTextColor("text-red-500");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      setOutput("エラーが発生しました。");
+      setTextColor("text-red-500");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -69,16 +97,21 @@ export default function Translator() {
         <div className="flex flex-col">
           <label className="mb-2 text-lg font-semibold">変換されたつぶやき</label>
           <div className={`p-4 border rounded-xl bg-white min-h-[180px] whitespace-pre-wrap ${textColor}`}>
-            {output || "ここに翻訳結果が表示されます"}
+            {
+              isLoading
+                ? <LoadingDots />
+                : (output || "ここに翻訳結果が表示されます")
+            }
           </div>
         </div>
       </div>
-      
+
       <button
         onClick={handleTranslate}
         className="mt-4 bg-orange-400 text-white px-4 py-2 rounded-lg hover:bg-orange-500 transition w-full max-w-md"
+        disabled={isLoading} // ローディング中にボタンは押せない
       >
-        翻訳する
+        {isLoading ? "翻訳中..." : "翻訳する"} {/* 状態に応じてボタンのテキストも変更 */}
       </button>
 
       <TweetComposer />
