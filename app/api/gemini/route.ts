@@ -4,7 +4,7 @@ import { Prompt } from '@/types/types';
 
 export async function POST(req: NextRequest) {
     try {
-        const { input, style } = await req.json() as Prompt;
+        const { input, style }: Prompt = await req.json();
 
         if (!input || !style) {
             return NextResponse.json({ error: 'Invalid input or style' }, { status: 400 });
