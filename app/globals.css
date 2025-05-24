@@ -2,7 +2,7 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #ffffff;
 }
 
 @theme inline {
@@ -14,7 +14,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #ffffff;
     --foreground: #ededed;
   }
 }
@@ -28,3 +28,38 @@ body {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@keyframes diagonal-scroll {
+  0% {
+    background-position: 0 200%;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.diagonal-background {
+  position: fixed;
+  /* 背景を画面に固定 */
+  bottom: 10vh;
+  left: -100vw;
+  width: 300vw;
+  /* ビューポート幅に合わせる */
+  height: 50vh;
+  /* ビューポート高さに合わせる */
+  background-image: url('/back_positive.svg');
+  /* パスを修正 */
+  background-size: 100vw 50vh;
+  /* 背景画像を画面全体にフィット */
+  background-repeat: repeat;
+  /* 繰り返し */
+  transform: rotate(-20deg);
+  /* 20度回転 */
+  transform-origin: center;
+  /* 回転の基準を中央に設定 */
+  animation: diagonal-scroll 60s linear infinite;
+  /* アニメーション設定 */
+  z-index: -1;
+  /* 背景として表示 */
+}

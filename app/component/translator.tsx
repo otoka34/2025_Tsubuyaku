@@ -53,8 +53,12 @@ export default function Translator() {
   };
 
   return (
-    <div className="min-h-screen bg-white p-6 flex flex-col items-center text-black space-y-20">
-      <h1 className="text-3xl font-bold mb-4">つぶ訳</h1>
+    <div className="min-h-screen bg-transparent p-6 flex flex-col items-center text-black space-y-20">
+      <img
+      src="/title.svg" // 画像ファイルのパスを指定
+      alt="つぶ訳"
+      className="w-48 h-auto mb-4" // 必要に応じてサイズを調整
+    />
 
       {/* 変換スタイル選択プルダウン */}
       <div className="mb-6 w-full max-w-md">
@@ -82,7 +86,7 @@ export default function Translator() {
           <label className="mb-2 text-lg font-semibold">つぶやきたい内容</label>
           <textarea
             rows={6}
-            className="p-4 border rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-blue-400 min-h-[180px]"
+            className="p-4 border rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-blue-400 min-h-[180px] bg-white"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="例）今日も全然集中できなかった…"
@@ -112,6 +116,8 @@ export default function Translator() {
 
       {/* ここで翻訳結果をTweetComposerに渡す */}
       <TweetComposer textToTweet={output} />
+    <>
+    </>
     </div>
   );
 }

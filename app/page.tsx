@@ -107,5 +107,13 @@ export default function Home() {
 import Translator from './component/translator';
 
 export default function Home() {
-  return <Translator />;
+  return (
+    <>
+      <div className="diagonal-background"></div>
+      <div className="pt-20 pb-20">
+        <Translator />
+      </div>
+      
+    </>
+  );
 }
