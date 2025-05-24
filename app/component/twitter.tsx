@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { FaSquareXTwitter } from "react-icons/fa6";
-import { FaTwitter } from "react-icons/fa6";
+import { RiTwitterXLine } from "react-icons/ri";
 
 interface TweetComposerProps {
   textToTweet: string; // 親から渡されるツイート用テキスト
@@ -22,27 +22,19 @@ const TweetComposer = ({ textToTweet }: TweetComposerProps) => {
   const tweetUrl = `https://twitter.com/intent/tweet?text=${encodedText}`;
 
   return (
-    <div
-  style={{
-    maxWidth: "600px",
-    margin: "0 auto",
-    padding: "1rem",
-    display: "flex",          // 横並びにする
-    gap: "1rem",              // ボタン間の間隔（任意）
-    justifyContent: "center", // 中央揃え（任意）
-  }}
->
-  {/* 投稿ボタン1 */}
-  <a href={tweetUrl} target="_blank" rel="noopener noreferrer">
-    <FaSquareXTwitter className="text-black w-10 h-10 transition-transform duration-300 hover:scale-110" />
-  </a>
 
-  {/* 投稿ボタン2 */}
-  <a href={tweetUrl} target="_blank" rel="noopener noreferrer">
-    <FaTwitter className="text-blue-400 w-10 h-10 transition-transform duration-300 hover:scale-110" />
-  </a>
-</div>
+  <div className="flex items-center mt-2 flex-wrap justify-center w-full max-w-md">
+    
+    {/* 投稿ボタン3 */}
+    <button
+      onClick={() => window.open(tweetUrl)}
+      className="mt-4 bg-white text-black px-4 py-2 rounded-full border border-black transition-transform duration-300 hover:scale-105 text-sm flex items-center justify-center gap-2"
+    >
+  <RiTwitterXLine className="text-xl bg-white text-black" />
+  つぶやく
+</button>
 
+  </div>
   );
 };
 

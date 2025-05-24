@@ -32,6 +32,7 @@ export default function Translator({
 
     setIsLoading(true);
     setOutput("");
+
     try {
       const res = await fetch("/api/gemini", {
         method: "POST",
@@ -42,6 +43,7 @@ export default function Translator({
       });
 
       const data = await res.json();
+
       if (res.ok) {
         setOutput(data.result);
         setTextColor("text-gray-800");
@@ -66,8 +68,8 @@ export default function Translator({
         alt="つぶ訳"
         className="w-48 h-auto mb-4" // 必要に応じてサイズを調整
       />
-
-      {/* 変換スタイル選択プルダウン */}
+      
+      {/* スタイル選択 */}
       <div className="mb-6 w-full max-w-md">
         <label htmlFor="style-select" className="block mb-2 font-semibold text-black">
           変換スタイル
@@ -86,9 +88,8 @@ export default function Translator({
         </select>
       </div>
 
-      {/* 入力・出力 */}
+      {/* 入力・出力エリア */}
       <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* 入力 */}
         <div className="flex flex-col">
           <label className="mb-2 text-lg font-semibold">つぶやきたい内容</label>
           <textarea
@@ -100,15 +101,10 @@ export default function Translator({
           />
         </div>
 
-        {/* 出力 */}
         <div className="flex flex-col">
           <label className="mb-2 text-lg font-semibold">変換されたつぶやき</label>
           <div className={`p-4 border rounded-xl bg-white min-h-[180px] whitespace-pre-wrap ${textColor}`}>
-            {
-              isLoading
-                ? <LoadingDots />
-                : (output[currentIndex] || "ここに翻訳結果が表示されます")
-            }
+            {isLoading ? <LoadingDots /> : (output || "ここに翻訳結果が表示されます")}
           </div>
           {/* 翻訳候補のナビゲーション */}
           {output.length > 1 && (
@@ -132,21 +128,18 @@ export default function Translator({
         </div>
       </div>
 
-      <div className="flex items-center gap-4 mt-4 flex-wrap justify-center">
+      {/* ボタン・ツイート */}
+      <div className="flex items-center gap-4 mt-9 flex-wrap justify-center w-full max-w-md">
         <button
           onClick={handleTranslate}
-          className="mt-4 mb-4 bg-orange-400 text-white px-4 py-2 rounded-lg hover:bg-orange-500 transition w-full max-w-md"
-          disabled={isLoading} // ローディング中にボタンは押せない
+          className="mt-4 bg-orange-400 text-white px-4 py-2 rounded-lg hover:bg-orange-500 transition w-full max-w-md font-semibold"
+          disabled={isLoading}
         >
-          {isLoading ? "翻訳中..." : "翻訳する"} {/* 状態に応じてボタンのテキストも変更 */}
+          {isLoading ? "翻訳中..." : "翻訳する"}
         </button>
 
-        {/* ここで翻訳結果をTweetComposerに渡す */}
-        {/* ここで翻訳結果をTweetComposerに渡す */}
-
         <TweetComposer textToTweet={output} />
       </div>
-        <TweetComposer textToTweet={output} />
-      </div>
+    </div>
   );
 }
