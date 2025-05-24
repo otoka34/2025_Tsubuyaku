@@ -1,12 +1,8 @@
 'use client';
 
 import { useState } from "react";
-<<<<<<< HEAD
 import TweetComposer from './twitter';
-
-=======
 import LoadingDots from "./loading";
->>>>>>> d374db706df21900787e084ae0391a1788a45c36
 
 export default function Translator() {
   const [input, setInput] = useState("");
@@ -114,7 +110,8 @@ export default function Translator() {
         {isLoading ? "翻訳中..." : "翻訳する"} {/* 状態に応じてボタンのテキストも変更 */}
       </button>
 
-      <TweetComposer />
+      {/* ここで翻訳結果をTweetComposerに渡す */}
+      <TweetComposer textToTweet={output} />
     </div>
   );
 }
