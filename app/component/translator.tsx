@@ -14,32 +14,37 @@ export default function Translator() {
     { value: "movie", label: "洋画っぽい表現" },
   ];
 
-  const handleTranslate = async() => {
-    // if (input === "") {
-    //   setOutput("");
-    //   setTextColor("text-gray-400");
-    // }
+  const handleTranslate = async () => {
+    if (input === "") {
+      setOutput("");
+      setTextColor("text-gray-400");
+    }
 
-    // else {
-    //   setOutput(`${input}`);
-    //   setTextColor("text-gray-800");
-    // }
-    try {
-      const res = await fetch("/api/gemini", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ input, style })
-      });
-      const data = await res.json();
-      if (res.ok) {
-  
-      } else {
-  
+    else {
+      setOutput(`${input}`);
+      setTextColor("text-gray-800");
+      try {
+        const res = await fetch("/api/gemini", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ input, style })
+        });
+        const data = await res.json();
+        if (res.ok) {
+
+          setOutput(data.result);
+          setTextColor("text-gray-800");
+        } else {
+          setOutput("翻訳に失敗しました。");
+          setTextColor("text-red-500");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        setOutput("エラーが発生しました。");
+        setTextColor("text-red-500");
       }
-    } catch (error) {
-      console.error("Error:", error);
     }
   };
 
@@ -88,7 +93,7 @@ export default function Translator() {
           </div>
         </div>
       </div>
-      
+
       <button
         onClick={handleTranslate}
         className="mt-4 bg-orange-400 text-white px-4 py-2 rounded-lg hover:bg-orange-500 transition w-full max-w-md"
