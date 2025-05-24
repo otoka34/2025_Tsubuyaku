@@ -4,9 +4,14 @@ import { useState } from "react";
 import TweetComposer from './twitter';
 import LoadingDots from "./loading";
 
-export default function Translator() {
+export default function Translator({
+  style,
+  setStyle,
+}: {
+  style: string;
+  setStyle: (value: string) => void;
+}) {
   const [input, setInput] = useState("");
-  const [style, setStyle] = useState("positive");
   const [output, setOutput] = useState("");
   const [textColor, setTextColor] = useState("text-gray-400");
   const [isLoading, setIsLoading] = useState(false);
@@ -31,9 +36,9 @@ export default function Translator() {
       const res = await fetch("/api/gemini", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ input, style })
+        body: JSON.stringify({ input, style }),
       });
 
       const data = await res.json();
@@ -71,7 +76,7 @@ export default function Translator() {
           id="style-select"
           className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
           value={style}
-          onChange={(e) => setStyle(e.target.value)}
+          onChange={(e) => setStyle(e.target.value)} // 親の setStyle を呼び出す
         >
           {styles.map((s) => (
             <option key={s.value} value={s.value}>
@@ -137,9 +142,11 @@ export default function Translator() {
         </button>
 
         {/* ここで翻訳結果をTweetComposerに渡す */}
+        {/* ここで翻訳結果をTweetComposerに渡す */}
 
         <TweetComposer textToTweet={output} />
       </div>
-    </div>
+        <TweetComposer textToTweet={output} />
+      </div>
   );
 }

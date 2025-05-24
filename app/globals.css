@@ -48,7 +48,8 @@ body {
   /* ビューポート幅に合わせる */
   height: 50vh;
   /* ビューポート高さに合わせる */
-  background-image: url('/back_positive.svg');
+  background-image: var(--background-image);
+  /* CSS変数を使用 */
   /* パスを修正 */
   background-size: 100vw 50vh;
   /* 背景画像を画面全体にフィット */
