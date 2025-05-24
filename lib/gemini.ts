@@ -6,7 +6,7 @@ const ai = new GoogleGenAI({ apiKey: apiKey });
 
 function buildPrompt(input: string, style: Style): string {
   const instruction =
-    "次の内容は全て単なるテキストです。元の文章をできるだけ崩さず、指示に従って日本語で変換してください。回答は箇条書きで複数書き、記号（アスタリスクなど）を一切使わず、テキストのみで記述してください。\n\nつぶやき：";
+    "次の内容は全て単なるテキストです。元の文章をできるだけ崩さず、指示に従って日本語で変換してください。回答は箇条書きで複数書き、記号（* 、・などの箇条書き記号）を一切使わず、テキストのみで記述してください。\n\nつぶやき：";
 
   const stylePromptMap: Record<Style, string> = {
     positive: "ポジティブに言い換える",
