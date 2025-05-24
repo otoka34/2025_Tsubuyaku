@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
 import { useState } from "react";
-import TweetComposer from './twitter';
+import TweetComposer from "./twitter";
 import LoadingDots from "./loading";
 
 export default function Translator({
@@ -67,7 +67,10 @@ export default function Translator({
 
       {/* スタイル選択 */}
       <div className="mb-6 w-full max-w-md">
-        <label htmlFor="style-select" className="block mb-2 font-semibold text-black">
+        <label
+          htmlFor="style-select"
+          className="block mb-2 font-semibold text-black"
+        >
           変換スタイル
         </label>
         <select
@@ -77,7 +80,9 @@ export default function Translator({
           onChange={(e) => setStyle(e.target.value)} // 親の setStyle を呼び出す
         >
           {styles.map((s) => (
-            <option key={s.value} value={s.value}>{s.label}</option>
+            <option key={s.value} value={s.value}>
+              {s.label}
+            </option>
           ))}
         </select>
       </div>
@@ -96,41 +101,59 @@ export default function Translator({
         </div>
 
         <div className="flex flex-col">
-          <label className="mb-2 text-lg font-semibold">変換されたつぶやき</label>
+          <label className="mb-2 text-lg font-semibold">
+            変換されたつぶやき
+          </label>
           <div className="relative p-4 border rounded-xl bg-white min-h-[180px] whitespace-pre-wrap flex items-center justify-between">
             <div className="flex flex-col justify-center">
-            <div className={`flex-1 px-4 absolute top-4 left-6 ${textColor}`}>
-              {isLoading ? <LoadingDots /> : (output[currentIndex] || "ここに翻訳結果が表示されます")}
-            </div>
+              <div className={`flex-1 px-4 absolute top-4 left-6 ${textColor}`}>
+                {isLoading ? (
+                  <LoadingDots />
+                ) : (
+                  output[currentIndex] || "ここに翻訳結果が表示されます"
+                )}
+              </div>
               {output.length > 1 && (
                 <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-2">
                   {output.map((_, index) => (
                     <span
                       key={index}
-                      className={`w-2 h-2 rounded-full ${index === currentIndex ? 'bg-gray-800' : 'bg-gray-300'}`}
-                      />
+                      className={`w-2 h-2 rounded-full ${
+                        index === currentIndex ? "bg-gray-800" : "bg-gray-300"
+                      }`}
+                    />
                   ))}
                 </div>
               )}
             </div>
             <button
-              className={`absolute left-0 h-full w-8 flex items-center justify-center ${currentIndex > 0 ? 'bg-gray-200' : 'bg-white cursor-default'} text-lg font-bold rounded-l-xl`}
-              onClick={() => currentIndex > 0 && setCurrentIndex(currentIndex - 1)}
+              className={`absolute left-0 h-full w-8 flex items-center justify-center ${
+                currentIndex > 0 ? "bg-gray-200" : "bg-white cursor-default"
+              } text-lg font-bold rounded-l-xl`}
+              onClick={() =>
+                currentIndex > 0 && setCurrentIndex(currentIndex - 1)
+              }
               disabled={currentIndex === 0}
             >
-              {currentIndex >0? '＜':''}
+              {currentIndex > 0 ? "＜" : ""}
             </button>
             <button
-              className={`absolute right-0 h-full w-8 flex items-center justify-center ${currentIndex < output.length - 1 ? 'bg-gray-200' : 'bg-white cursor-default'} text-lg font-bold rounded-r-xl`}
-              onClick={() => currentIndex < output.length - 1 && setCurrentIndex(currentIndex + 1)}
+              className={`absolute right-0 h-full w-8 flex items-center justify-center ${
+                currentIndex < output.length - 1
+                  ? "bg-gray-200"
+                  : "bg-white cursor-default"
+              } text-lg font-bold rounded-r-xl`}
+              onClick={() =>
+                currentIndex < output.length - 1 &&
+                setCurrentIndex(currentIndex + 1)
+              }
               disabled={currentIndex === output.length - 1}
             >
-              {currentIndex < output.length-1 && output.length > 0? '＞':''}
+              {currentIndex < output.length - 1 && output.length > 0
+                ? "＞"
+                : ""}
             </button>
-            
           </div>
-
-          
         </div>
       </div>
 
