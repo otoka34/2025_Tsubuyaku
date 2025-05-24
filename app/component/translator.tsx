@@ -12,10 +12,10 @@ export default function Translator({
   setStyle: (value: string) => void;
 }) {
   const [input, setInput] = useState("");
-  const [output, setOutput] = useState("");
+  const [output, setOutput] = useState<string[]>([]);
   const [textColor, setTextColor] = useState("text-gray-400");
   const [isLoading, setIsLoading] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(0); // 翻訳候補のインデックス, 初期値0
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const styles = [
     { value: "positive", label: "ポジティブ表現" },
@@ -25,13 +25,13 @@ export default function Translator({
 
   const handleTranslate = async () => {
     if (input === "") {
-      setOutput("");
+      setOutput([]);
       setTextColor("text-gray-400");
       return;
     }
 
     setIsLoading(true);
-    setOutput("");
+    setOutput([]);
 
     try {
       const res = await fetch("/api/gemini", {
@@ -47,14 +47,14 @@ export default function Translator({
       if (res.ok) {
         setOutput(data.result);
         setTextColor("text-gray-800");
-        setCurrentIndex(0); // 翻訳結果のインデックスをリセット
+        setCurrentIndex(0);
       } else {
-        setOutput("翻訳に失敗しました。");
+        setOutput(["翻訳に失敗しました。"]);
         setTextColor("text-red-500");
       }
     } catch (error) {
       console.error("Error:", error);
-      setOutput("エラーが発生しました。");
+      setOutput(["エラーが発生しました。"]);
       setTextColor("text-red-500");
     } finally {
       setIsLoading(false);
@@ -63,11 +63,7 @@ export default function Translator({
 
   return (
     <div className="min-h-screen bg-transparent p-6 flex flex-col items-center text-black space-y-20">
-      <img
-        src="/title.svg" // 画像ファイルのパスを指定
-        alt="つぶ訳"
-        className="w-48 h-auto mb-4" // 必要に応じてサイズを調整
-      />
+      <img src="/title.svg" alt="つぶ訳" className="w-48 h-auto mb-4" />
 
       {/* スタイル選択 */}
       <div className="mb-6 w-full max-w-md">
@@ -81,9 +77,7 @@ export default function Translator({
           onChange={(e) => setStyle(e.target.value)} // 親の setStyle を呼び出す
         >
           {styles.map((s) => (
-            <option key={s.value} value={s.value}>
-              {s.label}
-            </option>
+            <option key={s.value} value={s.value}>{s.label}</option>
           ))}
         </select>
       </div>
@@ -103,28 +97,40 @@ export default function Translator({
 
         <div className="flex flex-col">
           <label className="mb-2 text-lg font-semibold">変換されたつぶやき</label>
-          <div className={`p-4 border rounded-xl bg-white min-h-[180px] whitespace-pre-wrap ${textColor}`}>
-            {isLoading ? <LoadingDots /> : (output[currentIndex] || "ここに翻訳結果が表示されます")}
-          </div>
-          {/* 翻訳候補のナビゲーション */}
-          {output.length > 1 && (
-            <div className="flex gap-4 mt-2">
-              <button
-                onClick={() => setCurrentIndex((prev) => (prev > 0 ? prev - 1 : prev))}
-                className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
-                disabled={currentIndex === 0}
-              >
-                前へ
-              </button>
-              <button
-                onClick={() => setCurrentIndex((prev) => (prev < output.length - 1 ? prev + 1 : prev))}
-                className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
-                disabled={currentIndex === output.length - 1}
-              >
-                次へ
-              </button>
+          <div className="relative p-4 border rounded-xl bg-white min-h-[180px] whitespace-pre-wrap flex items-center justify-between">
+            <div className="flex flex-col justify-center">
+            <div className={`flex-1 px-4 absolute top-4 left-6 ${textColor}`}>
+              {isLoading ? <LoadingDots /> : (output[currentIndex] || "ここに翻訳結果が表示されます")}
             </div>
-          )}
+              {output.length > 1 && (
+                <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-2">
+                  {output.map((_, index) => (
+                    <span
+                      key={index}
+                      className={`w-2 h-2 rounded-full ${index === currentIndex ? 'bg-gray-800' : 'bg-gray-300'}`}
+                      />
+                  ))}
+                </div>
+              )}
+            </div>
+            <button
+              className={`absolute left-0 h-full w-8 flex items-center justify-center ${currentIndex > 0 ? 'bg-gray-200' : 'bg-white cursor-default'} text-lg font-bold rounded-l-xl`}
+              onClick={() => currentIndex > 0 && setCurrentIndex(currentIndex - 1)}
+              disabled={currentIndex === 0}
+            >
+              {currentIndex >0? '＜':''}
+            </button>
+            <button
+              className={`absolute right-0 h-full w-8 flex items-center justify-center ${currentIndex < output.length - 1 ? 'bg-gray-200' : 'bg-white cursor-default'} text-lg font-bold rounded-r-xl`}
+              onClick={() => currentIndex < output.length - 1 && setCurrentIndex(currentIndex + 1)}
+              disabled={currentIndex === output.length - 1}
+            >
+              {currentIndex < output.length-1 && output.length > 0? '＞':''}
+            </button>
+            
+          </div>
+
+          
         </div>
       </div>
 
