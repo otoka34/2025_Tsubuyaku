@@ -14,15 +14,32 @@ export default function Translator() {
     { value: "movie", label: "洋画っぽい表現" },
   ];
 
-  const handleTranslate = () => {
-    if (input === "") {
-      setOutput("");
-      setTextColor("text-gray-400");
-    }
+  const handleTranslate = async() => {
+    // if (input === "") {
+    //   setOutput("");
+    //   setTextColor("text-gray-400");
+    // }
 
-    else {
-      setOutput(`${input}`);
-      setTextColor("text-gray-800");
+    // else {
+    //   setOutput(`${input}`);
+    //   setTextColor("text-gray-800");
+    // }
+    try {
+      const res = await fetch("/api/gemini", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ input, style })
+      });
+      const data = await res.json();
+      if (res.ok) {
+  
+      } else {
+  
+      }
+    } catch (error) {
+      console.error("Error:", error);
     }
   };
 
