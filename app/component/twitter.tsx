@@ -9,11 +9,8 @@ interface TweetComposerProps {
 }
 
 const TweetComposer = ({ textToTweet }: TweetComposerProps) => {
-  const [text, setText] = useState<string>(""); // 入力されたテキストをstateで管理
-  const truncatedText =
-    textToTweet.length > 140
-      ? textToTweet.slice(0, 137) + "…" // 全体で140文字以内にするんかな？
-      : textToTweet;
+  const text = textToTweet || ""; // undefined対策
+  const truncatedText = text.length > 140 ? text.slice(0, 137) + "…" : text;
 
   // 入力テキストをURLエンコード
   const encodedText = encodeURIComponent(truncatedText);

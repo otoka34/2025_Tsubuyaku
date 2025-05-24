@@ -68,7 +68,7 @@ export default function Translator({
         alt="つぶ訳"
         className="w-48 h-auto mb-4" // 必要に応じてサイズを調整
       />
-      
+
       {/* スタイル選択 */}
       <div className="mb-6 w-full max-w-md">
         <label htmlFor="style-select" className="block mb-2 font-semibold text-black">
@@ -104,7 +104,7 @@ export default function Translator({
         <div className="flex flex-col">
           <label className="mb-2 text-lg font-semibold">変換されたつぶやき</label>
           <div className={`p-4 border rounded-xl bg-white min-h-[180px] whitespace-pre-wrap ${textColor}`}>
-            {isLoading ? <LoadingDots /> : (output || "ここに翻訳結果が表示されます")}
+            {isLoading ? <LoadingDots /> : (output[currentIndex] || "ここに翻訳結果が表示されます")}
           </div>
           {/* 翻訳候補のナビゲーション */}
           {output.length > 1 && (
@@ -138,7 +138,7 @@ export default function Translator({
           {isLoading ? "翻訳中..." : "翻訳する"}
         </button>
 
-        <TweetComposer textToTweet={output} />
+        <TweetComposer textToTweet={output[currentIndex] || ""} />
       </div>
     </div>
   );
