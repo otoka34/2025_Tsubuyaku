@@ -106,7 +106,7 @@ export default function Translator({
           </label>
           <div className="relative p-4 border rounded-xl bg-white min-h-[180px] whitespace-pre-wrap flex items-center justify-between">
             <div className="flex flex-col justify-center">
-              <div className={`flex-1 px-4 absolute top-4 left-6 ${textColor}`}>
+              <div className={`flex-1 px-10 absolute top-4 left-2 ${textColor}`}>
                 {isLoading ? (
                   <LoadingDots />
                 ) : (
