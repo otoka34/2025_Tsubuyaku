@@ -1,12 +1,14 @@
 'use client';
 
 import { useState } from "react";
+import LoadingDots from "./loading"; // ローディングコンポーネントをインポート
 
 export default function Translator() {
   const [input, setInput] = useState("");
   const [style, setStyle] = useState("positive");
   const [output, setOutput] = useState("");
   const [textColor, setTextColor] = useState("text-gray-400");
+  const [isLoading, setIsLoading] = useState(false); // ローディング状態を管理するstateを追加
 
   const styles = [
     { value: "positive", label: "ポジティブ表現" },
@@ -18,33 +20,34 @@ export default function Translator() {
     if (input === "") {
       setOutput("");
       setTextColor("text-gray-400");
+      return; // returnを追加して無駄な処理を防止
     }
 
-    else {
-      setOutput(`${input}`);
-      setTextColor("text-gray-800");
-      try {
-        const res = await fetch("/api/gemini", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ input, style })
-        });
-        const data = await res.json();
-        if (res.ok) {
+    setIsLoading(true); // ローディング開始
+    setOutput("");       // 一旦クリア
+    try {
+      const res = await fetch("/api/gemini", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ input, style })
+      });
 
-          setOutput(data.result);
-          setTextColor("text-gray-800");
-        } else {
-          setOutput("翻訳に失敗しました。");
-          setTextColor("text-red-500");
-        }
-      } catch (error) {
-        console.error("Error:", error);
-        setOutput("エラーが発生しました。");
+      const data = await res.json();
+      if (res.ok) {
+        setOutput(data.result);
+        setTextColor("text-gray-800");
+      } else {
+        setOutput("翻訳に失敗しました。");
         setTextColor("text-red-500");
       }
+    } catch (error) {
+      console.error("Error:", error);
+      setOutput("エラーが発生しました。");
+      setTextColor("text-red-500");
+    } finally {
+      setIsLoading(false); // ローディング終了
     }
   };
 
@@ -89,7 +92,11 @@ export default function Translator() {
         <div className="flex flex-col">
           <label className="mb-2 text-lg font-semibold">変換されたつぶやき</label>
           <div className={`p-4 border rounded-xl bg-white min-h-[180px] whitespace-pre-wrap ${textColor}`}>
-            {output || "ここに翻訳結果が表示されます"}
+            {
+              isLoading
+                ? <LoadingDots /> // ローディング中はアニメーションを表示
+                : (output || "ここに翻訳結果が表示されます")
+            }
           </div>
         </div>
       </div>
@@ -97,8 +104,9 @@ export default function Translator() {
       <button
         onClick={handleTranslate}
         className="mt-4 bg-orange-400 text-white px-4 py-2 rounded-lg hover:bg-orange-500 transition w-full max-w-md"
+        disabled={isLoading} // ローディング中はボタンを押せないように
       >
-        翻訳する
+        {isLoading ? "翻訳中..." : "翻訳する"} {/* 状態に応じてボタンのテキストも変更 */}
       </button>
     </div>
   );
