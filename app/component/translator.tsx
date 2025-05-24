@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from "react";
+import TweetComposer from './twitter';
+
 
 export default function Translator() {
   const [input, setInput] = useState("");
@@ -78,6 +80,8 @@ export default function Translator() {
       >
         翻訳する
       </button>
+
+      <TweetComposer />
     </div>
   );
 }
