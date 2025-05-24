@@ -1,14 +1,14 @@
 'use client';
 
 import { useState } from "react";
-import LoadingDots from "./loading"; // ローディングコンポーネントをインポート
+import LoadingDots from "./loading";
 
 export default function Translator() {
   const [input, setInput] = useState("");
   const [style, setStyle] = useState("positive");
   const [output, setOutput] = useState("");
   const [textColor, setTextColor] = useState("text-gray-400");
-  const [isLoading, setIsLoading] = useState(false); // ローディング状態を管理するstateを追加
+  const [isLoading, setIsLoading] = useState(false);
 
   const styles = [
     { value: "positive", label: "ポジティブ表現" },
@@ -20,11 +20,11 @@ export default function Translator() {
     if (input === "") {
       setOutput("");
       setTextColor("text-gray-400");
-      return; // returnを追加して無駄な処理を防止
+      return;
     }
 
-    setIsLoading(true); // ローディング開始
-    setOutput("");       // 一旦クリア
+    setIsLoading(true);
+    setOutput("");
     try {
       const res = await fetch("/api/gemini", {
         method: "POST",
@@ -47,7 +47,7 @@ export default function Translator() {
       setOutput("エラーが発生しました。");
       setTextColor("text-red-500");
     } finally {
-      setIsLoading(false); // ローディング終了
+      setIsLoading(false);
     }
   };
 
@@ -94,7 +94,7 @@ export default function Translator() {
           <div className={`p-4 border rounded-xl bg-white min-h-[180px] whitespace-pre-wrap ${textColor}`}>
             {
               isLoading
-                ? <LoadingDots /> // ローディング中はアニメーションを表示
+                ? <LoadingDots />
                 : (output || "ここに翻訳結果が表示されます")
             }
           </div>
@@ -104,7 +104,7 @@ export default function Translator() {
       <button
         onClick={handleTranslate}
         className="mt-4 bg-orange-400 text-white px-4 py-2 rounded-lg hover:bg-orange-500 transition w-full max-w-md"
-        disabled={isLoading} // ローディング中はボタンを押せないように
+        disabled={isLoading} // ローディング中にボタンは押せない
       >
         {isLoading ? "翻訳中..." : "翻訳する"} {/* 状態に応じてボタンのテキストも変更 */}
       </button>
