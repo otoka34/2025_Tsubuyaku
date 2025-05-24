@@ -106,18 +106,19 @@ export default function Translator() {
         </div>
       </div>
 
+    <div className="flex items-center gap-4 mt-4 flex-wrap justify-center">
       <button
         onClick={handleTranslate}
-        className="mt-4 bg-orange-400 text-white px-4 py-2 rounded-lg hover:bg-orange-500 transition w-full max-w-md"
+        className="mt-4 mb-4 bg-orange-400 text-white px-4 py-2 rounded-lg hover:bg-orange-500 transition w-full max-w-md"
         disabled={isLoading} // ローディング中にボタンは押せない
       >
         {isLoading ? "翻訳中..." : "翻訳する"} {/* 状態に応じてボタンのテキストも変更 */}
       </button>
 
       {/* ここで翻訳結果をTweetComposerに渡す */}
+
       <TweetComposer textToTweet={output} />
-    <>
-    </>
+    </div>    
     </div>
   );
 }
