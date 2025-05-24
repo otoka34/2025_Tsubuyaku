@@ -10,6 +10,7 @@ export default function Translator() {
   const [output, setOutput] = useState("");
   const [textColor, setTextColor] = useState("text-gray-400");
   const [isLoading, setIsLoading] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0); // 翻訳候補のインデックス, 初期値0
 
   const styles = [
     { value: "positive", label: "ポジティブ表現" },
@@ -39,6 +40,7 @@ export default function Translator() {
       if (res.ok) {
         setOutput(data.result);
         setTextColor("text-gray-800");
+        setCurrentIndex(0); // 翻訳結果のインデックスをリセット
       } else {
         setOutput("翻訳に失敗しました。");
         setTextColor("text-red-500");
@@ -55,10 +57,10 @@ export default function Translator() {
   return (
     <div className="min-h-screen bg-transparent p-6 flex flex-col items-center text-black space-y-20">
       <img
-      src="/title.svg" // 画像ファイルのパスを指定
-      alt="つぶ訳"
-      className="w-48 h-auto mb-4" // 必要に応じてサイズを調整
-    />
+        src="/title.svg" // 画像ファイルのパスを指定
+        alt="つぶ訳"
+        className="w-48 h-auto mb-4" // 必要に応じてサイズを調整
+      />
 
       {/* 変換スタイル選択プルダウン */}
       <div className="mb-6 w-full max-w-md">
@@ -100,25 +102,44 @@ export default function Translator() {
             {
               isLoading
                 ? <LoadingDots />
-                : (output || "ここに翻訳結果が表示されます")
+                : (output[currentIndex] || "ここに翻訳結果が表示されます")
             }
           </div>
+          {/* 翻訳候補のナビゲーション */}
+          {output.length > 1 && (
+            <div className="flex gap-4 mt-2">
+              <button
+                onClick={() => setCurrentIndex((prev) => (prev > 0 ? prev - 1 : prev))}
+                className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
+                disabled={currentIndex === 0}
+              >
+                前へ
+              </button>
+              <button
+                onClick={() => setCurrentIndex((prev) => (prev < output.length - 1 ? prev + 1 : prev))}
+                className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
+                disabled={currentIndex === output.length - 1}
+              >
+                次へ
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
-    <div className="flex items-center gap-4 mt-4 flex-wrap justify-center">
-      <button
-        onClick={handleTranslate}
-        className="mt-4 mb-4 bg-orange-400 text-white px-4 py-2 rounded-lg hover:bg-orange-500 transition w-full max-w-md"
-        disabled={isLoading} // ローディング中にボタンは押せない
-      >
-        {isLoading ? "翻訳中..." : "翻訳する"} {/* 状態に応じてボタンのテキストも変更 */}
-      </button>
+      <div className="flex items-center gap-4 mt-4 flex-wrap justify-center">
+        <button
+          onClick={handleTranslate}
+          className="mt-4 mb-4 bg-orange-400 text-white px-4 py-2 rounded-lg hover:bg-orange-500 transition w-full max-w-md"
+          disabled={isLoading} // ローディング中にボタンは押せない
+        >
+          {isLoading ? "翻訳中..." : "翻訳する"} {/* 状態に応じてボタンのテキストも変更 */}
+        </button>
 
-      {/* ここで翻訳結果をTweetComposerに渡す */}
+        {/* ここで翻訳結果をTweetComposerに渡す */}
 
-      <TweetComposer textToTweet={output} />
-    </div>    
+        <TweetComposer textToTweet={output} />
+      </div>
     </div>
   );
 }
