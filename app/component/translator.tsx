@@ -3,6 +3,7 @@
 import { useState } from "react";
 import TweetComposer from "./twitter";
 import LoadingDots from "./loading";
+import Motion from "./motion";
 
 export default function Translator({
   style,
@@ -21,6 +22,7 @@ export default function Translator({
     { value: "positive", label: "ポジティブ表現" },
     { value: "science", label: "理系っぽい表現" },
     { value: "movie", label: "洋画っぽい表現" },
+    { value: "hackathon", label: "ギークっぽい表現" },
   ];
 
   const handleTranslate = async () => {
@@ -64,6 +66,7 @@ export default function Translator({
   return (
     <div className="min-h-screen bg-transparent p-6 flex flex-col items-center text-black space-y-20">
       <img src="/title.svg" alt="つぶ訳" className="w-48 h-auto mb-4" />
+      <Motion />
 
       {/* スタイル選択 */}
       <div className="mb-6 w-full max-w-md">

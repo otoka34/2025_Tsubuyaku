@@ -12,6 +12,7 @@ function buildPrompt(input: string, style: Style): string {
     positive: "ポジティブに言い換える",
     science: "理系風に言い換える",
     movie: "洋画風、つまりウィットに富んだ表現に言い換える",
+    hackathon: "プログラマーっぽい表現に言い換える",
   };
 
   const styleInstruction = stylePromptMap[style] ?? "";
