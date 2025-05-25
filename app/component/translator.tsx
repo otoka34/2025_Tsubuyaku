@@ -93,7 +93,7 @@ export default function Translator({
           <label className="mb-2 text-lg font-semibold">つぶやきたい内容</label>
           <textarea
             rows={6}
-            className="p-4 border rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-blue-400 min-h-[180px] bg-white"
+            className="py-4 px-10 border rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-blue-400 min-h-[180px] bg-white"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="例）今日も全然集中できなかった…"
@@ -104,54 +104,53 @@ export default function Translator({
           <label className="mb-2 text-lg font-semibold">
             変換されたつぶやき
           </label>
-          <div className="relative p-4 border rounded-xl bg-white min-h-[180px] whitespace-pre-wrap flex items-center justify-between">
-            <div className="flex flex-col justify-center">
-              <div className={`flex-1 px-10 absolute top-4 left-2 ${textColor}`}>
+          <div className="relative p-4 pb-5 pr-10 border rounded-xl bg-white h-[180px] flex flex-col justify-between">
+            {/* スクロール可能な領域 */}
+            <div className="overflow-y-scroll whitespace-pre-wrap px-10 pb-4">
+              <div className={`${textColor}`}>
                 {isLoading ? (
                   <LoadingDots />
                 ) : (
                   output[currentIndex] || "ここに翻訳結果が表示されます"
                 )}
               </div>
-              {output.length > 1 && (
-                <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-2">
-                  {output.map((_, index) => (
-                    <span
-                      key={index}
-                      className={`w-2 h-2 rounded-full ${
-                        index === currentIndex ? "bg-gray-800" : "bg-gray-300"
-                      }`}
-                    />
-                  ))}
-                </div>
-              )}
             </div>
+
+            {/* ページインジケーター */}
+            {output.length > 1 && (
+              <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-2">
+                {output.map((_, index) => (
+                  <span
+                    key={index}
+                    className={`w-2 h-2 rounded-full ${index === currentIndex ? "bg-gray-800" : "bg-gray-300"
+                      }`}
+                  />
+                ))}
+              </div>
+            )}
+
+            {/* 左ボタン */}
             <button
-              className={`absolute left-0 h-full w-8 flex items-center justify-center ${
-                currentIndex > 0 ? "bg-gray-200" : "bg-white cursor-default"
-              } text-lg font-bold rounded-l-xl`}
-              onClick={() =>
-                currentIndex > 0 && setCurrentIndex(currentIndex - 1)
-              }
+              className={`absolute bottom-0 left-0 h-full w-8 flex items-center justify-center ${currentIndex > 0 ? "bg-gray-200" : "bg-white cursor-default"
+                } text-lg font-bold rounded-l-xl`}
+              onClick={() => currentIndex > 0 && setCurrentIndex(currentIndex - 1)}
               disabled={currentIndex === 0}
             >
               {currentIndex > 0 ? "＜" : ""}
             </button>
+
+            {/* 右ボタン */}
             <button
-              className={`absolute right-0 h-full w-8 flex items-center justify-center ${
-                currentIndex < output.length - 1
+              className={`absolute bottom-0 right-0 h-full w-8 flex items-center justify-center ${currentIndex < output.length - 1
                   ? "bg-gray-200"
                   : "bg-white cursor-default"
-              } text-lg font-bold rounded-r-xl`}
+                } text-lg font-bold rounded-r-xl`}
               onClick={() =>
-                currentIndex < output.length - 1 &&
-                setCurrentIndex(currentIndex + 1)
+                currentIndex < output.length - 1 && setCurrentIndex(currentIndex + 1)
               }
               disabled={currentIndex === output.length - 1}
             >
-              {currentIndex < output.length - 1 && output.length > 0
-                ? "＞"
-                : ""}
+              {currentIndex < output.length - 1 && output.length > 0 ? "＞" : ""}
             </button>
           </div>
         </div>
