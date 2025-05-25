@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Translator from "./component/translator";
-import Background from "./component/slider";
 
 export default function Home() {
   const [style, setStyle] = useState("positive");

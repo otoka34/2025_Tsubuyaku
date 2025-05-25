@@ -1,5 +1,5 @@
 import { GoogleGenAI } from "@google/genai";
-import { Style, Prompt } from "@/types/types";
+import { Style } from "@/types/types";
 
 const apiKey = process.env.GEMINI_API_KEY!;
 const ai = new GoogleGenAI({ apiKey: apiKey });

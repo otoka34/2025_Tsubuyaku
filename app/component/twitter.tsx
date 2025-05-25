@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
-import { FaSquareXTwitter } from "react-icons/fa6";
+import React from "react";
 import { RiTwitterXLine } from "react-icons/ri";
 
 interface TweetComposerProps {
