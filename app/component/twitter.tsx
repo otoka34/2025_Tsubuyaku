@@ -25,7 +25,7 @@ const TweetComposer = ({ textToTweet }: TweetComposerProps) => {
     {/* 投稿ボタン3 */}
     <button
       onClick={() => window.open(tweetUrl)}
-      className=" bg-white text-black px-4 py-2 rounded-full border border-black transition-transform duration-300 hover:scale-105 text-sm flex items-center justify-center gap-2"
+      className="cursor-pointer bg-white text-black px-4 py-2 rounded-full border border-black transition-transform duration-300 hover:scale-105 text-sm flex items-center justify-center gap-2"
     >
   <RiTwitterXLine className="text-xl bg-white text-black" />
   つぶやく

@@ -172,7 +172,7 @@ export default function Translator({
       <div className="flex items-center gap-4 mt-9 flex-wrap justify-center w-full max-w-md">
         <button
           onClick={handleTranslate}
-          className="mt-4 bg-orange-400 text-white px-4 py-2 rounded-lg hover:bg-orange-500 transition w-full max-w-md font-semibold"
+          className="cursor-pointer mt-4 bg-orange-400 text-white px-4 py-2 rounded-lg hover:bg-orange-500 transition w-full max-w-md font-semibold"
           disabled={isLoading}
         >
           {isLoading ? "翻訳中..." : "翻訳する"}
