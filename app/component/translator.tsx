@@ -120,10 +120,15 @@ export default function Translator({
             {output.length > 1 && (
               <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-2">
                 {output.map((_, index) => (
-                  <span
+                  <button
                     key={index}
-                    className={`w-2 h-2 rounded-full ${index === currentIndex ? "bg-gray-800" : "bg-gray-300"
-                      }`}
+                    onClick={() => setCurrentIndex(index)}
+                    className={`w-2 h-2 rounded-full ${
+                      index === currentIndex
+                        ? "bg-gray-800"
+                        : "bg-gray-300 hover:bg-gray-400"
+                    }`}
+                    aria-label={`Go to page ${index + 1}`}
                   />
                 ))}
               </div>
@@ -131,9 +136,12 @@ export default function Translator({
 
             {/* 左ボタン */}
             <button
-              className={`absolute bottom-0 left-0 h-full w-8 flex items-center justify-center ${currentIndex > 0 ? "bg-gray-200" : "bg-white cursor-default"
-                } text-lg font-bold rounded-l-xl`}
-              onClick={() => currentIndex > 0 && setCurrentIndex(currentIndex - 1)}
+              className={`absolute bottom-0 left-0 h-full w-8 flex items-center justify-center ${
+                currentIndex > 0 ? "bg-gray-200" : "bg-white cursor-default"
+              } text-lg font-bold rounded-l-xl`}
+              onClick={() =>
+                currentIndex > 0 && setCurrentIndex(currentIndex - 1)
+              }
               disabled={currentIndex === 0}
             >
               {currentIndex > 0 ? "＜" : ""}
@@ -141,16 +149,20 @@ export default function Translator({
 
             {/* 右ボタン */}
             <button
-              className={`absolute bottom-0 right-0 h-full w-8 flex items-center justify-center ${currentIndex < output.length - 1
+              className={`absolute bottom-0 right-0 h-full w-8 flex items-center justify-center ${
+                currentIndex < output.length - 1
                   ? "bg-gray-200"
                   : "bg-white cursor-default"
-                } text-lg font-bold rounded-r-xl`}
+              } text-lg font-bold rounded-r-xl`}
               onClick={() =>
-                currentIndex < output.length - 1 && setCurrentIndex(currentIndex + 1)
+                currentIndex < output.length - 1 &&
+                setCurrentIndex(currentIndex + 1)
               }
               disabled={currentIndex === output.length - 1}
             >
-              {currentIndex < output.length - 1 && output.length > 0 ? "＞" : ""}
+              {currentIndex < output.length - 1 && output.length > 0
+                ? "＞"
+                : ""}
             </button>
           </div>
         </div>
