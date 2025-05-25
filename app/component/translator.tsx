@@ -3,7 +3,6 @@
 import { useState } from "react";
 import TweetComposer from "./twitter";
 import LoadingDots from "./loading";
-import Motion from "./motion";
 
 export default function Translator({
   style,
@@ -66,7 +65,6 @@ export default function Translator({
   return (
     <div className="min-h-screen bg-transparent p-6 flex flex-col items-center text-black space-y-20">
       <img src="/title.svg" alt="つぶ訳" className="w-48 h-auto mb-4" />
-      <Motion />
 
       {/* スタイル選択 */}
       <div className="mb-6 w-full max-w-md">

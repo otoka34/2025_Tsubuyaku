@@ -12,6 +12,7 @@ export default function Home() {
     positive: "/back_positive.svg",
     science: "/back_science.svg",
     movie: "/back_movie_2.svg",
+    hackathon: "/back_hackathon.svg",
   };
 
   const backgroundImage = backgroundImageMap[style] || "/back_positive.svg";
