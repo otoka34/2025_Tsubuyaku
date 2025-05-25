@@ -4,7 +4,7 @@ import React from 'react';
 export default function LoadingDots() {
   return (
     <div className="text-gray-500 text-lg font-medium flex items-center space-x-1">
-      <span>変換中です</span>
+      <span>翻訳中です</span>
       <span className="dot dot1">.</span>
       <span className="dot dot2">.</span>
       <span className="dot dot3">.</span>
@@ -35,3 +35,4 @@ export default function LoadingDots() {
     </div>
   );
 }
+

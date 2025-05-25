@@ -3,6 +3,7 @@
 import { useState } from "react";
 import TweetComposer from "./twitter";
 import LoadingDots from "./loading";
+import LoadingDots2 from "./loading2";
 
 export default function Translator({
   style,
@@ -72,7 +73,7 @@ export default function Translator({
           htmlFor="style-select"
           className="block mb-2 font-semibold text-black"
         >
-          変換スタイル
+          翻訳スタイル
         </label>
         <select
           id="style-select"
@@ -103,7 +104,7 @@ export default function Translator({
 
         <div className="flex flex-col">
           <label className="mb-2 text-lg font-semibold">
-            変換されたつぶやき
+            翻訳されたつぶやき
           </label>
           <div className="relative p-4 pb-5 pr-10 border rounded-xl bg-white h-[180px] flex flex-col justify-between">
             {/* スクロール可能な領域 */}
@@ -171,13 +172,15 @@ export default function Translator({
 
       {/* ボタン・ツイート */}
       <div className="flex items-center gap-4 mt-9 flex-wrap justify-center w-full max-w-md">
+      {isLoading ? <LoadingDots2 /> :
         <button
           onClick={handleTranslate}
           className="cursor-pointer mt-4 bg-orange-400 text-white px-4 py-2 rounded-lg hover:bg-orange-500 transition w-full max-w-md font-semibold"
           disabled={isLoading}
         >
-          {isLoading ? "翻訳中..." : "翻訳する"}
+           翻訳する
         </button>
+      }
 
         <TweetComposer textToTweet={output[currentIndex] || ""} />
       </div>
