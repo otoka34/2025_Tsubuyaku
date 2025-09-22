@@ -8,7 +8,7 @@
 ## チーム情報
 - チーム名: つぶ訳
 - プロダクト名: つぶ訳
-- メンバー: [@r-sei][@HaruyaFujii][@otoka34][@tkousei] 
+- メンバー: [@r-sei][@HaruyaFujii][@otoka34][@tkousei2003] 
 
 ---
 
